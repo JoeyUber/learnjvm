@@ -1,6 +1,7 @@
 package classpath
  import "os"
  import "path/filepath"
+ import "fmt"
  type Classpath struct{
  	bootClassPath Entry
  	extClassPath Entry
@@ -14,9 +15,17 @@ package classpath
  func (self *Classpath) ReadClass(className string) ([]byte,Entry,error){
  	className = className + ".class"
  	if data,entry,err := self.bootClassPath.readClass(className); err == nil {
+ 		if err != nil {
+ 			fmt.Printf("bootClassPath not find this class");
+ 		}else{
+ 			fmt.Printf("bootClassPath find  class %s \n" ,className)
+ 		}
  		return data ,entry,err
  	}
  	if data,entry,err := self.extClassPath.readClass(className); err == nil {
+ 		if err != nil {
+ 			fmt.Printf("extClassPath not find this class");
+ 		}
  		return data ,entry,err
  	}
  	return self.userClassPath.readClass(className)
