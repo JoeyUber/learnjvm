@@ -1,37 +1,36 @@
 package classfile
-type MemberInfo struct{
-	cp ConstantPool
-	accessFlags uint16
-	nameIndex uint16
+
+type MemberInfo struct {
+	cp               ConstantPool
+	accessFlags      uint16
+	nameIndex        uint16
 	descriptionIndex uint16
-	attributes []AttributInfo
+	attributes       []AttributeInfo
 }
 
-
-func readMembers(reader *ClassReader,cp ConstantPool) []*MemberInfo{
-	memberCount := reader.readUnit16()
-	members := make([]*MemberInfo,memberCount)
-	for i := range members{
-		members[i] = readMember(reader,cp)
+func readMembers(reader *ClassReader, cp ConstantPool) []*MemberInfo {
+	memberCount := reader.readUint16()
+	members := make([]*MemberInfo, memberCount)
+	for i := range members {
+		members[i] = readMember(reader, cp)
 	}
 	return members
 }
 
-func readMember(reader *ClassReader,cp ConstantPool) MemberInfo{
+func readMember(reader *ClassReader, cp ConstantPool) *MemberInfo {
 	return &MemberInfo{
-		cp : cp,
-		accessFlags : reader.readUnit16()
-		nameIndex : reader.readUnit16()
-		descriptionIndex : reader.readUnit16()
-		attributes : readAttributes(reader,cp)
+		cp:               cp,
+		accessFlags:      reader.readUint16(),
+		nameIndex:        reader.readUint16(),
+		descriptionIndex: reader.readUint16(),
+		attributes:       readAttributes(reader, cp),
 	}
 }
 
-func (self *MemberInfo) Name() string{
-	self.cp.getUtf8(self.nameIndex)
+func (self *MemberInfo) Name() string {
+	return self.cp.getUtf8(self.nameIndex)
 }
 
-func (self *MemberInfo) Description() string{
-	self.cp.getUtf8(self.descriptionIndex)
+func (self *MemberInfo) Description() string {
+	return self.cp.getUtf8(self.descriptionIndex)
 }
-
