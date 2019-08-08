@@ -7,7 +7,7 @@ type Thread struct {
 
 func NewThread() *Thread {
 	return &Thread{
-		stack: newStark(1024),
+		stack: newStack(1024),
 	}
 }
 
@@ -20,7 +20,7 @@ func (self *Thread) PushFrame(frame *Frame) {
 }
 
 func (self *Thread) PopFrame() *Frame {
-	return self.stack.pop(frame)
+	return self.stack.pop()
 }
 
 func (self *Thread) CurrentFrame() *Frame {
