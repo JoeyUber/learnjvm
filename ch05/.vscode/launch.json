@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ClassFileTest",
+            "request": "launch",
+            "mainClass": "jvmgo.book.ch03.ClassFileTest"
+        }
+    ]
+}
