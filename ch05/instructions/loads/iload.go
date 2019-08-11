@@ -13,6 +13,7 @@ type ILOAD_3 struct{ base.NoOperandsInstruction }
 
 func _iload(frame *rtda.Frame, index uint) {
 	val := frame.LocalVars().GetInt(index)
+	//fmt.Printf("will push %d to stack \n", val)
 	frame.OperandStack().PushInt(val)
 }
 

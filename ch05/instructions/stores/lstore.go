@@ -16,19 +16,19 @@ func _lstore(frame *rtda.Frame, index uint) {
 	frame.LocalVars().SetLong(index, val)
 }
 
-func (self *LSTORE) Execture(frame *rtda.Frame) {
+func (self *LSTORE) Execute(frame *rtda.Frame) {
 	_lstore(frame, self.Index)
 }
 
-func (self *LSTORE_0) Execture(frame *rtda.Frame) {
+func (self *LSTORE_0) Execute(frame *rtda.Frame) {
 	_lstore(frame, 0)
 }
-func (self *LSTORE_1) Execture(frame *rtda.Frame) {
+func (self *LSTORE_1) Execute(frame *rtda.Frame) {
 	_lstore(frame, 1)
 }
-func (self *LSTORE_2) Execture(frame *rtda.Frame) {
+func (self *LSTORE_2) Execute(frame *rtda.Frame) {
 	_lstore(frame, 2)
 }
-func (self *LSTORE_3) Execture(frame *rtda.Frame) {
+func (self *LSTORE_3) Execute(frame *rtda.Frame) {
 	_lstore(frame, 3)
 }

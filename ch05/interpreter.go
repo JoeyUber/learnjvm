@@ -3,16 +3,18 @@ package main
 import (
 	"fmt"
 	"jvmgo/ch05/classfile"
+	"jvmgo/ch05/instructions"
+	"jvmgo/ch05/instructions/base"
 	"jvmgo/ch05/rtda"
 )
 
 func interpreter(methodInfo *classfile.MemberInfo) {
 	codeAttr := methodInfo.CodeAttribute()
-	maxLocals := codeAttr.MaxLocals
-	maxStack := codeAttr.maxStack
+	maxLocals := codeAttr.MaxLocals()
+	maxStack := codeAttr.MaxStack()
 	bytecode := codeAttr.Code()
 	thread := rtda.NewThread()
-	frame := rtda.NewFrame(maxLocals, maxStack)
+	frame := rtda.NewFrame(thread, maxLocals, maxStack)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
 	loop(thread, bytecode)
@@ -33,5 +35,14 @@ func loop(thread *rtda.Thread, bytecode []byte) {
 		// execute
 		fmt.Printf("pc:%2d inst:%T %v\n", pc, inst, inst)
 		inst.Execute(frame)
+		fmt.Printf("LocalVars:%v\n", frame.LocalVars())
+	}
+}
+
+func catchErr(frame *rtda.Frame) {
+	if r := recover(); r != nil {
+		fmt.Printf("LocalVars:%v\n", frame.LocalVars())
+		fmt.Printf("OperandStack:%v\n", frame.OperandStack())
+		panic(r)
 	}
 }

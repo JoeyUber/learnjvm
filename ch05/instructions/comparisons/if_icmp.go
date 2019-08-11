@@ -18,6 +18,15 @@ func (self *IF_ICMPNE) Execute(frame *rtda.Frame) {
 	v1 := stack.PopInt()
 	v2 := stack.PopInt()
 	if v1 != v2 {
-		self.Branch(self.Offset)
+		base.Branch(frame, self.Offset)
+	}
+}
+
+func (self *IF_ICMPGE) Execute(frame *rtda.Frame) {
+	stack := frame.OperandStack()
+	v1 := stack.PopInt()
+	v2 := stack.PopInt()
+	if v1 < v2 {
+		base.Branch(frame, self.Offset)
 	}
 }

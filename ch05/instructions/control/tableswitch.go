@@ -1,6 +1,9 @@
 package control
 
-import "jvmgo/ch05/instructions/base"
+import (
+	"jvmgo/ch05/instructions/base"
+	"jvmgo/ch05/rtda"
+)
 
 type TABLE_SWITH struct {
 	defaultOffset int32
@@ -10,21 +13,22 @@ type TABLE_SWITH struct {
 }
 
 func (self *TABLE_SWITH) FetchOperands(reader *base.BytecodeReader) {
-	self.defaultOffset = reader.SkipPadding()
+	reader.SkipPadding()
+	self.defaultOffset = reader.ReadInt32()
 	self.low = reader.ReadInt32()
 	self.high = reader.ReadInt32()
 	jumpOffsetCount := reader.ReadInt32()
 	self.jumpOffsets = reader.ReadInt32s(jumpOffsetCount)
 }
 
-
-func (self *TABLE_SWITH) Execute(frame *rtda.Frame){
+func (self *TABLE_SWITH) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	i = stack.PopInt()
-	if(i => self.low && i<= self.high){
-		offset := int(self.jumpOffsets[i - self.low])
-	}else{
-		offset := int(self.defaultOffset)
+	i := stack.PopInt()
+	var offset int
+	if i >= self.low && i <= self.high {
+		offset = int(self.jumpOffsets[i-self.low])
+	} else {
+		offset = int(self.defaultOffset)
 	}
-	base.Branch(offset)
+	base.Branch(frame, offset)
 }
