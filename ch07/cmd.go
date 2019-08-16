@@ -5,12 +5,14 @@ import "flag"
 import "fmt"
 
 type Cmd struct {
-	helpFlag    bool
-	versionFlag bool
-	cpOption    string
-	XjreOption  string
-	class       string
-	args        []string
+	helpFlag         bool
+	versionFlag      bool
+	cpOption         string
+	XjreOption       string
+	class            string
+	args             []string
+	verboseClassFlag bool
+	verboseInstFlag  bool
 }
 
 func parseCmd() *Cmd {
@@ -21,6 +23,8 @@ func parseCmd() *Cmd {
 	flag.StringVar(&cmd.cpOption, "classpath", "", "this is classpath")
 	flag.StringVar(&cmd.cpOption, "cp", "", "this is cp")
 	flag.StringVar(&cmd.XjreOption, "Xjre", "", "path to Xjre")
+	flag.BoolVar(&cmd.verboseClassFlag, "verbose:class", false, "")
+	flag.BoolVar(&cmd.verboseInstFlag, "verbose:inst", false, "")
 	flag.Parse()
 	args := flag.Args()
 	if len(args) > 0 {

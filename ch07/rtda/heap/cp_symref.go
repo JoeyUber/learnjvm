@@ -37,3 +37,22 @@ func (self *Class) getPackageName() string {
 	}
 	return ""
 }
+
+func (self *Class) GetPackageName() string {
+	return self.getPackageName()
+}
+
+func (self *Class) SuperClass() *Class {
+	return self.superClass
+}
+
+func (self *Class) IsSuperClassOf(sub *Class) bool {
+	//TODO 待优化 如果self 是Object 应该直接返回true
+	if sub.superClass == nil {
+		return false
+	}
+	if sub.superClass == self {
+		return false
+	}
+	return self.IsSuperClassOf(sub.superClass)
+}

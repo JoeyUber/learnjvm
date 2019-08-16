@@ -44,6 +44,10 @@ func (self *Class) IsInterface() bool {
 	return 0 != self.accessFlags&ACC_INTERFACE
 }
 
+func (self *Class) HasAccSuper() bool {
+	return 0 != self.accessFlags&ACC_SUPER
+}
+
 func (self *Class) NewObject() *Object {
 	return newObject(self)
 }
@@ -75,4 +79,25 @@ func (self *Class) getStaticMethod(name, descriptor string) *Method {
 		}
 	}
 	return nil
+}
+
+func (self *Class) IsImplements(iface *Class) bool {
+	if !iface.IsInterface() {
+		panic("this class is not interface!")
+	}
+	return isImplements(self, iface)
+}
+
+func isImplements(class *Class, iface *Class) bool {
+	for _, i := range class.interfaces {
+		if i == iface {
+			return true
+		}
+		return isImplements(i, iface)
+	}
+	return false
+}
+
+func (self *Class) Name() string {
+	return self.name
 }

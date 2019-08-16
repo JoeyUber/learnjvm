@@ -61,3 +61,7 @@ func (self *Method) Class() *Class {
 func (self *Method) Code() []byte {
 	return self.code
 }
+
+func (self *Method) IsAbstract() bool {
+	return 0 != self.accessFlag&ACC_ABSTRACT
+}

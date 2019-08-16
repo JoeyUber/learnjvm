@@ -1,6 +1,9 @@
 package heap
 
-import "jvmgo/ch07/classfile"
+import (
+	"fmt"
+	"jvmgo/ch07/classfile"
+)
 
 type MethodRef struct {
 	MemberRef
@@ -16,12 +19,12 @@ func newMethodRef(cp *ConstantPool, cpInfo *classfile.ConstantMethodrefInfo) *Me
 
 func (self *MethodRef) ResolvedMethod() *Method {
 	if self.method == nil {
-		self.resolvedMethod()
+		self.method = self.resolvedMethod()
 	}
 	return self.method
 }
 
-func (self MethodRef) resolvedMethod() *Method {
+func (self *MethodRef) resolvedMethod() *Method {
 	d := self.cp.class
 	c := self.ResolvedClass()
 	if c.IsInterface() {
@@ -37,7 +40,21 @@ func (self MethodRef) resolvedMethod() *Method {
 	return method
 }
 
+func (self *MemberRef) ResolvedInterfaceMethod() *Method {
+	c := self.ResolvedClass()
+	if !c.IsInterface() {
+		panic("java.lang.IncompatibleClassChangeError")
+	}
+	for _, method := range c.methods {
+		if method.name == self.name && method.descriptor == self.descriptor {
+			return method
+		}
+	}
+	return LookupMethodInInterface(c.interfaces, self.name, self.descriptor)
+}
+
 func lookupMethod(class *Class, name, descriptor string) *Method {
+	fmt.Printf("lookup method : %s in class : %s \n", name, class.name)
 	method := LookupMethodInClass(class, name, descriptor)
 	if method == nil {
 		method = LookupMethodInInterface(class.interfaces, name, descriptor)

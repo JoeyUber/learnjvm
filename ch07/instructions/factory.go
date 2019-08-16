@@ -25,6 +25,10 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &constants.ICONST_0{}
 	case 0x04:
 		return &constants.ICONST_1{}
+	case 0x2a:
+		return &loads.ALOAD_0{}
+	case 0x2b:
+		return &loads.ALOAD_1{}
 	case 0x2c:
 		return &loads.ALOAD_2{}
 	case 0x2d:

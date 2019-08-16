@@ -32,7 +32,7 @@ func (self *Thread) CurrentFrame() *Frame {
 }
 
 func (self *Thread) TopFrame() *Frame {
-	return slef.stack.top()
+	return self.stack.top()
 }
 
 func (self *Thread) NewFrame(method *heap.Method) *Frame {
@@ -46,4 +46,8 @@ func newFrame(thread *Thread, method *heap.Method, maxLocal uint, maxStack uint)
 		localVars:    newLocalVars(maxLocal),
 		operandStack: newOperandStack(maxStack),
 	}
+}
+
+func (self *Thread) IsStackEmpty() bool {
+	return self.stack.isEmpty()
 }
