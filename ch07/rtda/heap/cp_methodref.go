@@ -1,7 +1,6 @@
 package heap
 
 import (
-	"fmt"
 	"jvmgo/ch07/classfile"
 )
 
@@ -54,7 +53,7 @@ func (self *MemberRef) ResolvedInterfaceMethod() *Method {
 }
 
 func lookupMethod(class *Class, name, descriptor string) *Method {
-	fmt.Printf("lookup method : %s in class : %s \n", name, class.name)
+	//fmt.Printf("lookup method : %s in class : %s \n", name, class.name)
 	method := LookupMethodInClass(class, name, descriptor)
 	if method == nil {
 		method = LookupMethodInInterface(class.interfaces, name, descriptor)

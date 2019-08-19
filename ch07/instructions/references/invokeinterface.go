@@ -25,7 +25,9 @@ func (self *INVOKE_INTERFACE) Execute(frame *rtda.Frame) {
 	if resolvedMethod.IsStatic() || resolvedMethod.IsPrivate() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
-	ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount() - 1)
+	//书中源码是下面的-1，为啥-1呢
+	//ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount() - 1)
+	ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount())
 	if ref == nil {
 		panic("java.lang.NullPointerException")
 	}
@@ -41,4 +43,5 @@ func (self *INVOKE_INTERFACE) Execute(frame *rtda.Frame) {
 		panic("java.lang.IllegalAccessError")
 	}
 	base.InvokeMethod(frame, methodToBeInvoked)
+
 }

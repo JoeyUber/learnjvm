@@ -18,6 +18,9 @@ func newOperandStack(maxStack uint) *OperandStack {
 	}
 	return nil
 }
+func (self *OperandStack) SlotCount() uint {
+	return self.size
+}
 
 func (self *OperandStack) PushInt(val int32) {
 	self.slots[self.size].num = val
@@ -84,5 +87,5 @@ func (self *OperandStack) PopSlot() Slot {
 }
 
 func (self *OperandStack) GetRefFromTop(n uint) *heap.Object {
-	return self.slots[self.size-1-n].ref
+	return self.slots[self.size-n].ref
 }

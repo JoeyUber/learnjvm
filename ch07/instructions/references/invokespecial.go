@@ -1,6 +1,7 @@
 package references
 
 import (
+	"fmt"
 	"jvmgo/ch07/instructions/base"
 	"jvmgo/ch07/rtda"
 	"jvmgo/ch07/rtda/heap"
@@ -17,17 +18,20 @@ func (self *INVOKE_SPECIAL) Execute(frame *rtda.Frame) {
 	currentClass := frame.Method().Class()
 	invokeMethodRef := currentClass.ConstantPool().GetConstant(self.Index).(*heap.MethodRef)
 	invokeMethod := invokeMethodRef.ResolvedMethod()
-	invokeMethodClass := invokeMethod.Class()
+	invokeMethodClass := invokeMethodRef.ResolvedClass()
 	/*判断方法在当前情景是否可调用*/
 	//判断该方法是否是构造函数
-	if invokeMethod.Name() == "<init>" && currentClass != invokeMethodClass {
+	//为什么要判断调用类和方法所属类是否是同一个类 目前每一个类都有构造函数 ，不同的是参数会有不同。但这并不是判断是否是同一个类的依据
+	if invokeMethod.Name() == "<init>" && invokeMethod.Class() != invokeMethodClass {
+		fmt.Printf("currentClass : %s \n", currentClass.Name())
 		panic("java.lang.NoSuchMethodError")
 	}
 	//判断方法是否是静态
 	if invokeMethod.IsStatic() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
-
+	//fmt.Printf("current OperandStack SlotCount %d \n", frame.OperandStack().SlotCount())
+	//fmt.Printf("invokeMethod.ArgSlotCount %d \n", invokeMethod.ArgSlotCount())
 	ref := frame.OperandStack().GetRefFromTop(invokeMethod.ArgSlotCount())
 	if ref == nil {
 		panic("java.lang.NullPointerException")

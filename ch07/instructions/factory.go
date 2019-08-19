@@ -45,10 +45,14 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &loads.ILOAD_2{}
 	case 0x10:
 		return &constants.BIPUSH{}
+	case 0x4c:
+		return &stores.ASTORE_1{}
 	case 0x4d:
 		return &stores.ASTORE_2{}
 	case 0x4e:
 		return &stores.ASTORE_3{}
+	case 0x57:
+		return &stack.POP{}
 	case 0x59:
 		return &stack.DUP{}
 	case 0x60:
@@ -59,8 +63,14 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &comparisons.IFEQ{}
 	case 0xa2:
 		return &comparisons.IF_ICMPGE{}
+	case 0xa6:
+		return &comparisons.IF_ACMPNE{}
 	case 0xa7:
 		return &control.GOTO{}
+	case 0xac:
+		return &control.IRETURN{}
+	case 0xb1:
+		return &control.RETURN{}
 	case 0xb2:
 		return &references.GET_STATIC{}
 	case 0xb3:
@@ -73,6 +83,10 @@ func NewInstruction(opcode byte) base.Instruction {
 		return &references.INVOKE_VIRTUAL{}
 	case 0xb7:
 		return &references.INVOKE_SPECIAL{}
+	case 0xb8:
+		return &references.INVOKE_STATIC{}
+	case 0xb9:
+		return &references.INVOKE_INTERFACE{}
 	case 0xbb:
 		return &references.NEW{}
 	case 0xc0:
