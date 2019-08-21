@@ -1,0 +1,16 @@
+public class ArrayDemo {
+  public static void main(String[] args) {
+    int[] a1 = new int[10];         // newarray
+    String[] a2 = new String[10];     // anewarray
+    int[][] a3 = new int[10][10];     // multianewarray
+    int x = a1.length;             // arraylength
+    a1[0] = 100;             // iastore
+    int y = a1[0];             // iaload
+    a2[0] = "abc";             // aastore
+    String s = a2[0];             // aaload
+	Object[] o1 = new Object[10];
+  }
+}
+
+
+http://backend-gw.yiche.com/yicheforumadmin-svc/topicdaily/deletedaily?name=%E5%88%86%E7%B1%BB%E5%90%8D%E7%A7%B0&parentid=1
